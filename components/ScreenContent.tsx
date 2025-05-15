@@ -1,25 +1,54 @@
-import { Text, View } from 'react-native';
+import {
+  Image,
+  TextInput,
+  View,
+  StatusBar as NativeStatusBar,
+  useWindowDimensions,
+  Dimensions,
+} from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { theme } from "theme";
 
-import { EditScreenInfo } from './EditScreenInfo';
+const statusBarHeight = NativeStatusBar.currentHeight;
+const { height: screenHeight } = Dimensions.get("screen");
 
-type ScreenContentProps = {
-  title: string;
-  path: string;
-  children?: React.ReactNode;
-};
+const ScreenContent = () => {
+  const { height: windowHeight } = useWindowDimensions();
+  const navigationBarHeight = screenHeight - windowHeight;
 
-export const ScreenContent = ({ title, path, children }: ScreenContentProps) => {
   return (
-    <View className={styles.container}>
-      <Text className={styles.title}>{title}</Text>
-      <View className={styles.separator} />
-      <EditScreenInfo path={path} />
-      {children}
+    <View className="relative flex-1">
+      <StatusBar style="light" />
+
+      <Image
+        blurRadius={70}
+        source={require("../assets/images/bg.png")}
+        className="absolute h-full w-full"
+      />
+
+      <View
+        className="flex flex-1 pt-[16px]"
+        style={{
+          marginTop: statusBarHeight,
+          marginBottom: navigationBarHeight,
+          borderColor: "green",
+          borderWidth: 10,
+        }}
+      >
+        <View style={{ height: "7%" }} className="relative z-50 mx-4">
+          <View
+            className="flew-row  items-center justify-end rounded-full"
+            style={{ backgroundColor: theme.bgWhite(0.2) }}
+          >
+            <TextInput
+              placeholder="Search city"
+              placeholderTextColor="lightgray"
+            ></TextInput>
+          </View>
+        </View>
+      </View>
     </View>
   );
 };
-const styles = {
-  container: `items-center flex-1 justify-center`,
-  separator: `h-[1px] my-7 w-4/5 bg-gray-200`,
-  title: `text-xl font-bold`,
-};
+
+export default ScreenContent;
