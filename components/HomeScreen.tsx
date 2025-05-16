@@ -9,7 +9,7 @@ import WeatherInfo from "./WeatherInfo";
 
 const statusBarHeight = NativeStatusBar.currentHeight;
 
-const ScreenContent = () => {
+const HomeScreen = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [locations, setLocations] = useState<string[]>(["1", "2", "3"]);
 
@@ -47,4 +47,4 @@ const ScreenContent = () => {
   );
 };
 
-export default ScreenContent;
+export default HomeScreen;
