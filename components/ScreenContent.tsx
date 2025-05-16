@@ -14,8 +14,6 @@ const ScreenContent = () => {
   const insets = useSafeAreaInsets();
   const navigationBarHeight = insets.bottom;
 
-  console.log("Navigation Bar Height:", navigationBarHeight);
-
   return (
     <View className="relative flex-1">
       <StatusBar style="light" />
