@@ -5,13 +5,11 @@ import "./global.css";
 
 const App = () => {
   return (
-    <>
-      <SafeAreaProvider>
-        <SafeAreaView className="flex-1" edges={["left", "right"]}>
-          <ScreenContent />
-        </SafeAreaView>
-      </SafeAreaProvider>
-    </>
+    <SafeAreaProvider>
+      <SafeAreaView className="flex-1" edges={["left", "right"]}>
+        <ScreenContent />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
