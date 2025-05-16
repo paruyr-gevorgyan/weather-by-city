@@ -1,29 +1,37 @@
 import { Image, Text, View } from "react-native";
+import { TObjectType } from "./HomeScreen";
+import { getWeatherImage } from "../constants";
 
-const WeatherInfo = () => {
+type TType = {
+  weather: TObjectType;
+};
+
+const WeatherInfo = ({ weather }: TType) => {
+  const { current, location } = weather;
+
   return (
     <View className="mx-4 mb-2 flex flex-1 justify-around">
       <Text className="text-center text-2xl font-bold text-white">
-        London,&nbsp;
+        {location?.name},&nbsp;
         <Text className="text-semibold text-lg text-gray-300">
-          United Kingdom
+          {location?.country}
         </Text>
       </Text>
 
       <View className="flex-row justify-center">
         <Image
-          source={require("../assets/images/partlycloudy.png")}
+          source={getWeatherImage(current?.condition?.text)}
           className="h-52 w-52"
         />
       </View>
 
       <View className="space-y-2">
         <Text className="ml-5 text-center text-6xl font-bold text-white">
-          23&#176;
+          {current?.temp_c}&#176;
         </Text>
 
         <Text className="text-center text-xl tracking-widest text-white">
-          Partly cloudy
+          {current?.condition?.text}
         </Text>
       </View>
 
@@ -34,7 +42,9 @@ const WeatherInfo = () => {
             className="h-6 w-6"
           />
 
-          <Text className="text-base font-semibold text-white">22km</Text>
+          <Text className="text-base font-semibold text-white">
+            {(current?.wind_kph / 3.6).toFixed(1)} m/s
+          </Text>
         </View>
 
         <View className="flex-row items-center gap-2">
@@ -43,7 +53,9 @@ const WeatherInfo = () => {
             className="h-6 w-6"
           />
 
-          <Text className="text-base font-semibold text-white">23%</Text>
+          <Text className="text-base font-semibold text-white">
+            {current?.humidity}%
+          </Text>
         </View>
 
         <View className="flex-row items-center gap-2">
@@ -52,7 +64,7 @@ const WeatherInfo = () => {
             className="h-6 w-6"
           />
 
-          <Text className="text-base font-semibold text-white">6:05 AM</Text>
+          <Text className="text-base font-semibold text-white">M</Text>
         </View>
       </View>
     </View>

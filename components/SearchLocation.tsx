@@ -1,19 +1,36 @@
-import { Dispatch, Fragment, SetStateAction } from "react";
+import { Dispatch, Fragment, SetStateAction, useCallback } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { theme } from "theme";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import { MapPinIcon } from "react-native-heroicons/solid";
+import { debounce } from "lodash";
+import { fetchLocations } from "api/weather";
+import { TObjectType } from "./HomeScreen";
 
-type TTypes = {
+type TType = {
   showSearch: boolean;
   setShowSearch: Dispatch<SetStateAction<boolean>>;
-  locations: string[];
+  locations: TObjectType;
+  setLocations: Dispatch<SetStateAction<TObjectType>>;
+  handleLocation: (location: TObjectType) => void;
 };
 
-const SearchLocation = ({ showSearch, setShowSearch, locations }: TTypes) => {
-  const handleLocation = (location: string) => {
-    console.log("🚀 ~ handleLocation ~ location:", location);
+const SearchLocation = ({
+  showSearch,
+  setShowSearch,
+  locations,
+  setLocations,
+  handleLocation,
+}: TType) => {
+  const handleSearch = (value: string) => {
+    if (value.length > 2) {
+      fetchLocations({ cityName: value }).then((data) => {
+        setLocations(data);
+      });
+    }
   };
+
+  const handleTextDebounce = useCallback(debounce(handleSearch, 1200), []);
 
   return (
     <View style={{ height: "7%" }} className="relative z-50 mx-4">
@@ -32,6 +49,7 @@ const SearchLocation = ({ showSearch, setShowSearch, locations }: TTypes) => {
             placeholderTextColor="lightgray"
             placeholderClassName="text-base"
             className="flex-1 pl-6 text-base text-white"
+            onChangeText={handleTextDebounce}
           />
         )}
 
@@ -46,7 +64,7 @@ const SearchLocation = ({ showSearch, setShowSearch, locations }: TTypes) => {
 
       {locations.length > 0 && showSearch && (
         <View className="absolute top-16 w-full rounded-3xl bg-gray-300">
-          {locations.map((location, index) => {
+          {locations.map((location: any, index: number) => {
             const showBorder = index + 1 !== locations.length;
 
             return (
@@ -57,7 +75,7 @@ const SearchLocation = ({ showSearch, setShowSearch, locations }: TTypes) => {
                 >
                   <MapPinIcon size={20} color="grey" />
                   <Text className="ml-2 text-lg text-black">
-                    London, United Kingdom
+                    {location?.name}, {location?.country}
                   </Text>
                 </TouchableOpacity>
 
