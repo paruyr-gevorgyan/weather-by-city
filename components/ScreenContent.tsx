@@ -3,18 +3,18 @@ import {
   TextInput,
   View,
   StatusBar as NativeStatusBar,
-  useWindowDimensions,
-  Dimensions,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { theme } from "theme";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const statusBarHeight = NativeStatusBar.currentHeight;
-const { height: screenHeight } = Dimensions.get("screen");
 
 const ScreenContent = () => {
-  const { height: windowHeight } = useWindowDimensions();
-  const navigationBarHeight = screenHeight - windowHeight;
+  const insets = useSafeAreaInsets();
+  const navigationBarHeight = insets.bottom;
+
+  console.log("Navigation Bar Height:", navigationBarHeight);
 
   return (
     <View className="relative flex-1">
