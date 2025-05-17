@@ -7,7 +7,7 @@ type TType = {
 };
 
 const WeatherInfo = ({ weather }: TType) => {
-  const { current, location } = weather;
+  const { current, location, forecast } = weather;
 
   return (
     <View className="mx-4 mb-2 flex flex-1 justify-around">
@@ -64,7 +64,9 @@ const WeatherInfo = ({ weather }: TType) => {
             className="h-6 w-6"
           />
 
-          <Text className="text-base font-semibold text-white">M</Text>
+          <Text className="text-base font-semibold text-white">
+            {forecast?.forecastday?.at(0)?.astro?.sunrise}
+          </Text>
         </View>
       </View>
     </View>

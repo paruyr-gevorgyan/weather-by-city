@@ -1,6 +1,6 @@
 export type WeatherConditionKey = keyof typeof weatherImages;
 
-export const apiKey = "3dbaf264dd434bd3b6c163107251605";
+export const apiKey = "cd8e083d3a7e4ede989114920251705";
 
 export const weatherImages: { [key: string]: number } = {
   "Partly cloudy": require("../assets/images/partlycloudy.png"),
@@ -20,16 +20,16 @@ export const weatherImages: { [key: string]: number } = {
   other: require("../assets/images/moderaterain.png"),
 };
 
-export function getWeatherImage(condition?: string): number {
-  if (!condition) {
-    return weatherImages["other"];
-  }
+export const getWeatherImage = (condition: string): number => {
   const words = condition.split(" ");
+
   for (let i = 1; i <= words.length; i++) {
     const prefix = words.slice(0, i).join(" ");
+
     if (prefix in weatherImages) {
       return weatherImages[prefix];
     }
   }
+
   return weatherImages["other"];
-}
+};

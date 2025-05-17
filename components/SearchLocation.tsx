@@ -62,7 +62,7 @@ const SearchLocation = ({
         </TouchableOpacity>
       </View>
 
-      {locations.length > 0 && showSearch && (
+      {Array.isArray(locations) && locations.length > 0 && showSearch && (
         <View className="absolute top-16 w-full rounded-3xl bg-gray-300">
           {locations.map((location: any, index: number) => {
             const showBorder = index + 1 !== locations.length;

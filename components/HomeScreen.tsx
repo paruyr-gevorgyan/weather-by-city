@@ -7,6 +7,7 @@ import SearchLocation from "./SearchLocation";
 import WeatherInfo from "./WeatherInfo";
 import { fetchWeatherForecast } from "api/weather";
 import * as Progress from "react-native-progress";
+import { getData, storeData } from "utils/asyncStorage";
 
 export type TObjectType = {
   [key: string]: any;
@@ -27,6 +28,7 @@ const HomeScreen = () => {
     setLocations({});
     setShowSearch(false);
     setLoading(true);
+    storeData("city", location.name);
 
     fetchWeatherForecast({ cityName: location.name, days: 7 }).then((data) => {
       setWeather(data);
@@ -35,7 +37,9 @@ const HomeScreen = () => {
   };
 
   const fetchMyWeatherData = async () => {
-    fetchWeatherForecast({ cityName: "Yerevan", days: 7 }).then((data) => {
+    const myCity = (await getData("city")) ?? "Yerevan";
+
+    fetchWeatherForecast({ cityName: myCity, days: 7 }).then((data) => {
       setWeather(data);
       setLoading(false);
     });
